@@ -1,29 +1,57 @@
 ---
-title: "HW5"
+title: "Homework #5, Choice #1"
 author: "Rachel Kanaziz"
 date: "11/11/2019"
 output: word_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, options(tigris_use_cache = TRUE))
+library(tidyverse)
+library(reshape2)
+library(tigris)
+library(sf)
+
 ```
 
-## R Markdown
+# Homicide Data
 
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+```{r read data}
+homicide_raw <- read_csv("../data/homicide-data.csv")
 ```
 
-## Including Plots
+## Clean Data
+Filter the data for the city of Denver
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r denver}
+denver <- homicide_raw %>% 
+  filter(city == "Denver") %>% 
+  unite(cord, lat, lon, sep = ",") %>% 
+  select(cord, disposition, victim_race)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Map Boundaries
+
+In this section, I used the zip codes for the Denver area to create boundaries for my base map. 
+
+```{r zips}
+denver_zips <- zctas(cb = TRUE, starts_with = c("800", "801", "802", "803", "806"))
+plot(denver_zips)
+```
+
+## Number of Homicides by Victim Race
+
+Here, I determined the three race groups (balck, white, hispanic) with the highest number of victim homicides. 
+
+``` {r race}
+race <- denver %>% 
+  group_by(victim_race) %>% 
+  mutate(count=n()) %>% 
+  arrange(desc(count)) %>% 
+  ungroup()
+
+denver2 <- denver %>%
+  filter(victim_race == c("Black", "White", "Hispanic"))
+```
+
+
