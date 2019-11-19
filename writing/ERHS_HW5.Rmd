@@ -26,8 +26,7 @@ Filter the data for the city of Denver
 ```{r denver}
 denver <- homicide_raw %>% 
   filter(city == "Denver") %>% 
-  unite(cord, lat, lon, sep = ",") %>% 
-  select(cord, disposition, victim_race)
+  select(lat, lon, disposition, victim_race)
 ```
 
 ## Map Boundaries
@@ -35,7 +34,7 @@ denver <- homicide_raw %>%
 In this section, I used the zip codes for the Denver area to create boundaries for my base map. 
 
 ```{r zips}
-denver_zips <- zctas(cb = TRUE, starts_with = c("800", "801", "802", "803", "806"))
+denver_zips <- zctas(cb = TRUE, starts_with = c("802"), class = "sf")
 plot(denver_zips)
 ```
 
@@ -55,3 +54,17 @@ denver2 <- denver %>%
 ```
 
 
+## Create the Map
+
+### TO DO: Need to set CRS and figure out solves/unsolved facet
+
+```{r map}
+denver_crs <- denver2 %>% 
+  filter(!is.na(lat)) %>% 
+  st_as_sf(coords = c("lon", "lat")) %>% 
+  st_set_crs(4269)
+
+ggplot() + 
+  geom_sf(data = denver_zips, color = "lightgray") + 
+  geom_sf(data = denver_crs, aes(color = factor(victim_race)))
+```
