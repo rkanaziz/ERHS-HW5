@@ -50,13 +50,14 @@ race <- denver %>%
   ungroup()
 
 denver2 <- denver %>%
-  filter(victim_race == c("Black", "White", "Hispanic"))
+  filter(victim_race == c("Black", "White", "Hispanic")) %>% 
+  fct_recode(disposition, solved = "Closed without arrest", solved = "Closed by arrest", unsolved = "Open/No arrest")
 ```
 
 
 ## Create the Map
 
-### TO DO: Need to set CRS and figure out solves/unsolved facet
+### TO DO: Need to figure out solved/unsolved facet
 
 ```{r map}
 denver_crs <- denver2 %>% 
