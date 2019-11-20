@@ -16,12 +16,15 @@ library(viridis)
 
 # Homicide Data
 
+Read in the data. 
+
 ```{r read data}
 homicide_raw <- read_csv("../data/homicide-data.csv")
 ```
 
 ## Clean Data
-Filter the data for the city of Denver
+
+Filter the data for the city of Denver and select the categories that will be used. 
 
 ```{r denver}
 denver <- homicide_raw %>% 
