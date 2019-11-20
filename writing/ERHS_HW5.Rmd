@@ -66,14 +66,17 @@ denver_crs <- denver2 %>%
   st_as_sf(coords = c("lon", "lat")) %>% 
   st_set_crs(4269)
 
-ggplot() + 
+map <- ggplot() + 
   geom_sf(data = denver_zips, color = "lightgray") + 
   geom_sf(data = denver_crs, aes(color = factor(victim_race)), show.legend = 'point') +
   ggtitle("Homicides in Denver, CO") +
-  scale_color_manual(values = c("Black" = "black", "White" = "yellow", "Hispanic" = "red"),
-                     labels = c("Black", "White", "Hispanic"),
+  scale_color_manual(values = c("Black" = "black", "Hispanic" = "red", "White" = "yellow"),
+                     labels = c("Black", "Hispanic", "White"),
                      name = "Victim Race") +
   labs(x = "Longitude", y = "Latitude") +
-  facet_wrap(~ disposition, ncol = 1)
+  facet_wrap(~ disposition, ncol = 1) +
+  theme(plot.title = element_text(hjust = 0.5))
+
+map
 
 ```
