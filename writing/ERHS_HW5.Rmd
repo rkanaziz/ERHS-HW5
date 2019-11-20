@@ -2,7 +2,7 @@
 title: "Homework #5, Choice #1"
 author: "Rachel Kanaziz"
 date: "11/11/2019"
-output: word_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
