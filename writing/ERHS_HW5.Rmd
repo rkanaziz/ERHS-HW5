@@ -11,7 +11,7 @@ library(tidyverse)
 library(reshape2)
 library(tigris)
 library(sf)
-
+library(viridis)
 ```
 
 # Homicide Data
@@ -53,7 +53,6 @@ denver2 <- denver %>%
   filter(victim_race == c("Black", "White", "Hispanic")) %>% 
   mutate(disposition = factor(disposition, levels = c("Closed without arrest", "Closed by arrest", "Open/No arrest"), 
                       labels = c("solved", "solved", "unsolved")))
-
 ```
 
 
@@ -69,5 +68,11 @@ denver_crs <- denver2 %>%
 
 ggplot() + 
   geom_sf(data = denver_zips, color = "lightgray") + 
-  geom_sf(data = denver_crs, aes(color = factor(victim_race)))
+  scale_fill_viridis(name = "Victim Race") +
+  geom_sf(data = denver_crs, aes(color = factor(victim_race), 
+          shape = disposition)) +
+  # scale_color_viridis(name = "Case Dsiposition") +
+  ggtitle("Homicides in Denver, CO") +
+  labs(x = "Longitude", y = "Latitude") +
+  facet_wrap(~ disposition, ncol = 1)
 ```
