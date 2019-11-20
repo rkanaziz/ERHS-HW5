@@ -60,7 +60,7 @@ denver2 <- denver %>%
 
 ### TO DO: Need to figure out solved/unsolved facet
 
-```{r map}
+```{r, map, fig.width = 10, dpi=300}
 denver_crs <- denver2 %>% 
   filter(!is.na(lat)) %>% 
   st_as_sf(coords = c("lon", "lat")) %>% 
@@ -68,11 +68,12 @@ denver_crs <- denver2 %>%
 
 ggplot() + 
   geom_sf(data = denver_zips, color = "lightgray") + 
-  scale_fill_viridis(name = "Victim Race") +
-  geom_sf(data = denver_crs, aes(color = factor(victim_race), 
-          shape = disposition)) +
-  # scale_color_viridis(name = "Case Dsiposition") +
+  geom_sf(data = denver_crs, aes(color = factor(victim_race)), show.legend = 'point') +
   ggtitle("Homicides in Denver, CO") +
+  scale_color_manual(values = c("Black" = "black", "White" = "yellow", "Hispanic" = "red"),
+                     labels = c("Black", "White", "Hispanic"),
+                     name = "Victim Race") +
   labs(x = "Longitude", y = "Latitude") +
   facet_wrap(~ disposition, ncol = 1)
+
 ```
