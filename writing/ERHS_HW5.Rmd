@@ -1,8 +1,9 @@
 ---
-title: "Homework #5, Choice #1"
+title: 'Homework #5, Choice #1'
 author: "Rachel Kanaziz"
 date: "11/11/2019"
-output: pdf_document
+output:
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -63,7 +64,7 @@ denver2 <- denver %>%
 
 I created a map to show where the homicides in Denver have occured for the three race groups with the highest number of victims. Then, I faceted by the disposition of the case in order to create two stacked maps. 
 
-```{r, map, fig.width = 10, dpi=300}
+```{r, map, dpi=300}
 denver_crs <- denver2 %>% 
   filter(!is.na(lat)) %>% 
   st_as_sf(coords = c("lon", "lat")) %>% 
@@ -78,7 +79,7 @@ map <- ggplot() +
                      name = "Victim Race") +
   labs(x = "Longitude", y = "Latitude") +
   facet_wrap(~ disposition, ncol = 1) +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5), axis.text.x = element_text(angle = 90, hjust = 1))
 
 map
 
