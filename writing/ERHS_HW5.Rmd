@@ -51,7 +51,9 @@ race <- denver %>%
 
 denver2 <- denver %>%
   filter(victim_race == c("Black", "White", "Hispanic")) %>% 
-  fct_recode(disposition, solved = "Closed without arrest", solved = "Closed by arrest", unsolved = "Open/No arrest")
+  mutate(disposition = factor(disposition, levels = c("Closed without arrest", "Closed by arrest", "Open/No arrest"), 
+                      labels = c("solved", "solved", "unsolved")))
+
 ```
 
 
