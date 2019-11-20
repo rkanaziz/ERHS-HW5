@@ -58,7 +58,7 @@ denver2 <- denver %>%
 
 ## Create the Map
 
-### TO DO: Need to figure out solved/unsolved facet
+I created a map to show where the homicides in Denver have occured for the three race groups with the highest number of victims. Then, I faceted by the disposition of the case in order to create two stacked maps. 
 
 ```{r, map, fig.width = 10, dpi=300}
 denver_crs <- denver2 %>% 
